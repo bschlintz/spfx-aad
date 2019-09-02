@@ -29,31 +29,31 @@ export default class SpfxAadWebPart extends BaseClientSideWebPart<ISpfxAadWebPar
     try {
       // Get token PROVIDER
       const tokenProvider = await this.context.aadTokenProviderFactory.getTokenProvider();
-
       // Get TOKEN
       this.token = await tokenProvider.getToken(this.properties.ClientID, false);
-
     }
     catch(error) {
       this.error = error;
     }
 
-    try {
-      // Call secured API with token
-      let headers = new Headers();
-      headers.set('Authorization', `Bearer ${this.token}`);
-      const response = await this.context.httpClient.get(this.properties.APIUrl, HttpClient.configurations.v1, { headers });
-      if (response.ok) {
-        const result = await response.json();
-        this.result = result.message;
-        this.decodedToken = result.decodedToken;
+    if (this.token) {
+      try {
+        // Call secured API with token
+        let headers = new Headers();
+        headers.set('Authorization', `Bearer ${this.token}`);
+        const response = await this.context.httpClient.get(this.properties.APIUrl, HttpClient.configurations.v1, { headers });
+        if (response.ok) {
+          const result = await response.json();
+          this.result = result.message;
+          this.decodedToken = result.decodedToken;
+        }
+        else {
+          throw new Error(`${response.status}: ${response.statusText}`);
+        }
       }
-      else {
-        throw new Error(`${response.status}: ${response.statusText}`);
+      catch(error) {
+        this.error = `Error calling API URL: ${this.properties.APIUrl}. ${error}`;
       }
-    }
-    catch(error) {
-      this.error = `Error calling API URL: ${this.properties.APIUrl}. ${error}`;
     }
   }
 
