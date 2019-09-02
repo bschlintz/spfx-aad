@@ -1,0 +1,26 @@
+.spfxAad {
+  .container {
+    margin: 0px auto;
+    padding: 20px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  .error {
+    color: red;
+  }
+
+  .result {
+    color: green;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .token {
+    word-wrap: break-word;
+  }
+
+  .decodedToken {
+    font-family: monospace;
+    font-size: 12px;
+  }
+}
