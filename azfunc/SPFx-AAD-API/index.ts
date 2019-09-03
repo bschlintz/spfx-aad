@@ -6,7 +6,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
   // Read AUTHORIZATION header
   const header = req.headers['authorization'];
-  const headerParts = header.split(' ');
+  const headerParts = header ? header.split(' ') : [];
   const authorizationToken = headerParts.length === 2 ? headerParts[1] : '';
 
   // ENSURE we have a token
